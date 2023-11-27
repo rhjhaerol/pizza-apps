@@ -6,7 +6,6 @@ import SectionHeader from "@/components/layout/SectionHeader";
 const Page = () => {
   return (
     <>
-      <Header />
       <Hero />
       <HomeMenu />
 
@@ -43,11 +42,7 @@ const Page = () => {
           </a>
         </div>
       </section>
-
-      <footer className="border-t p-8 text-center text-gray-500 mt-16">
-        &copy; 2023 All right reserved
-      </footer>
-    </>
+</>
   );
 };
 
