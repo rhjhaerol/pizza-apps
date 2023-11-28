@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import {signIn} from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 const LoginPage = () => {
@@ -11,10 +11,10 @@ const LoginPage = () => {
   const handleFormSubmit = async (ev) => {
     ev.preventDefault();
     setLoginInProcess(true);
-   
-    await signIn('credentials', {email, password});
 
-    setLoginInProcess(false)
+    await signIn("credentials", { email, password, callbackUrl: "/" });
+
+    setLoginInProcess(false);
   };
 
   return (
@@ -37,11 +37,16 @@ const LoginPage = () => {
           onChange={(ev) => setPassword(ev.target.value)}
           disabled={loginInProcess}
         />
-        <button type="submit" disabled={loginInProcess}>Login</button>
+        <button type="submit" disabled={loginInProcess}>
+          Login
+        </button>
         <div className="my-4 text-center text-gray-500">
           or login with provider
         </div>
-        <button className="flex gap-4 justify-center">
+        <button type="button"
+          onClick={() => signIn("google", { callbackUrl: "/" })}
+          className="flex gap-4 justify-center"
+        >
           <Image src={"/google.png"} alt={""} width={24} height={24} />
           Login with google
         </button>
