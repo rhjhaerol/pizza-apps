@@ -1,6 +1,12 @@
+"use client";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 const Header = () => {
+  const session = useSession();
+  console.log(session);
+  const status = session.status;
+
   return (
     <header className="flex justify-between items-center">
       <nav className="flex items-center gap-6 text-gray-500 font-semibold">
@@ -14,13 +20,25 @@ const Header = () => {
       </nav>
 
       <nav className="flex items-center gap-4 text-gray-500 font-semibold">
-        <Link href={"/login"}>Login</Link>
-        <Link
-          href={"/register"}
-          className="bg-primary text-white rounded-full px-8 py-1"
-        >
-          Register
-        </Link>
+        {status === 'authenticated' && (
+          <button
+            onClick={() => signOut()}
+            className="bg-primary text-white rounded-full px-8 py-1"
+          >
+            Logout
+          </button>
+        )}
+        {status === 'unauthenticated' && (
+          <>
+            <Link href={"/login"}>Login</Link>
+            <Link
+              href={"/register"}
+              className="bg-primary text-white rounded-full px-8 py-1"
+            >
+              Register
+            </Link>
+          </>
+        )}
       </nav>
     </header>
   );
