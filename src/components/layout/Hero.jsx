@@ -12,8 +12,8 @@ const Hero = () => {
           Pizza is the missing piece that makes every day complete, a simple yet
           delicious joy in life
         </p>
-        <div className="flex items-center gap-4">
-          <button className="bg-primary text-white py-2 px-4 font-semibold uppercase rounded-full text-sm">
+        <div className="flex items-center text-sm gap-4">
+          <button className="bg-primary text-white py-2 px-4 font-semibold uppercase rounded-full">
             Order now &nbsp; &rarr;
           </button>
           <button className=" text-gray-500 border-0">Learn more &nbsp; &rarr;</button>
