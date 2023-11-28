@@ -6,6 +6,11 @@ const Header = () => {
   const session = useSession();
   console.log(session);
   const status = session.status;
+  const userData = session.data?.user;
+  let userName = userData?.name || userData?.email;
+  if (userName && userName.includes(" ")) {
+    userName = userName.split(" ")[0];
+  }
 
   return (
     <header className="flex justify-between items-center">
@@ -20,15 +25,20 @@ const Header = () => {
       </nav>
 
       <nav className="flex items-center gap-4 text-gray-500 font-semibold">
-        {status === 'authenticated' && (
-          <button
-            onClick={() => signOut()}
-            className="bg-primary text-white rounded-full px-8 py-1"
-          >
-            Logout
-          </button>
+        {status === "authenticated" && (
+          <>
+            <Link href={"/profile"} className="whitespace-nowrap">
+              Hello, {userName}
+            </Link>
+            <button
+              onClick={() => signOut()}
+              className="bg-primary text-white rounded-full px-8 py-1"
+            >
+              Logout
+            </button>
+          </>
         )}
-        {status === 'unauthenticated' && (
+        {status === "unauthenticated" && (
           <>
             <Link href={"/login"}>Login</Link>
             <Link
