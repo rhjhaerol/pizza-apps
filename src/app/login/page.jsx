@@ -12,7 +12,7 @@ const LoginPage = () => {
     ev.preventDefault();
     setLoginInProcess(true);
    
-    await signIn('credentials', {email, password, callbackUrl: '/'});
+    await signIn('credentials', {email, password});
 
     setLoginInProcess(false)
   };
@@ -24,7 +24,7 @@ const LoginPage = () => {
         <input
           type="email"
           placeholder="email"
-          name={email}
+          name="email"
           value={email}
           onChange={(ev) => setEmail(ev.target.value)}
           disabled={loginInProcess}
@@ -32,7 +32,7 @@ const LoginPage = () => {
         <input
           type="password"
           placeholder="password"
-          name={password}
+          name="password"
           value={password}
           onChange={(ev) => setPassword(ev.target.value)}
           disabled={loginInProcess}
