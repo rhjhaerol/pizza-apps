@@ -16,7 +16,7 @@ const Hero = () => {
           <button className="bg-primary text-white py-2 px-4 font-semibold uppercase rounded-full text-sm">
             Order now &nbsp; &rarr;
           </button>
-          <button className=" text-gray-500">Learn more &nbsp; &rarr;</button>
+          <button className=" text-gray-500 border-0">Learn more &nbsp; &rarr;</button>
         </div>
       </div>
       <div className="relative">
