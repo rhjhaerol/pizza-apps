@@ -10,6 +10,8 @@ const ProfilePage = () => {
   const { status } = session;
 
   const [userName, setUserName] = useState("");
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -19,11 +21,19 @@ const ProfilePage = () => {
 
   const handleProfileInUpdate = async (ev) => {
     ev.preventDefault();
+    setSaved(false);
+    setSaving(true);
     const response = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: userName }),
     });
+
+    setSaving(false);
+    
+    if (response.ok) {
+      setSaved(true);
+    }
   };
 
   if (status === "loading") {
@@ -40,6 +50,16 @@ const ProfilePage = () => {
     <section className="mt-8">
       <h1 className="text-center text-primary text-4xl mb-4">Login</h1>
       <div className="max-w-md mx-auto">
+        {saved && (
+          <h2 className="text-center bg-green-100 p-2 rounded-lg border border-1 border-green-500 font-medium">
+            Profile saved!
+          </h2>
+        )}
+        {saving && (
+          <h2 className="text-center bg-blue-100 p-2 rounded-lg border border-1 border-blue-500 font-medium">
+            Save...
+          </h2>
+        )}
         <div className="flex items-center gap-4">
           <div>
             <div className="p-2 rounded-lg relative">
