@@ -3,11 +3,28 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const ProfilePage = () => {
   const session = useSession();
-  console.log(session);
   const { status } = session;
+
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      setUserName(session.data.user.name);
+    }
+  }, [session, status]);
+
+  const handleProfileInUpdate = async (ev) => {
+    ev.preventDefault();
+    const response = await fetch("/api/profile", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: userName }),
+    });
+  };
 
   if (status === "loading") {
     return "Loading...";
@@ -22,7 +39,7 @@ const ProfilePage = () => {
   return (
     <section className="mt-8">
       <h1 className="text-center text-primary text-4xl mb-4">Login</h1>
-      <form className="max-w-md mx-auto">
+      <div className="max-w-md mx-auto">
         <div className="flex items-center gap-4">
           <div>
             <div className="p-2 rounded-lg relative">
@@ -36,13 +53,22 @@ const ProfilePage = () => {
               <button className="button">Edit</button>
             </div>
           </div>
-          <div className="grow">
-            <input type="text" placeholder="First and last name" />
-            <input type="email" value={session.data.user.email} disabled={true} />
+          <form className="grow" onSubmit={handleProfileInUpdate}>
+            <input
+              type="text"
+              placeholder="First and last name"
+              value={userName}
+              onChange={(ev) => setUserName(ev.target.value)}
+            />
+            <input
+              type="email"
+              value={session.data.user.email}
+              disabled={true}
+            />
             <button type="submit">Save</button>
-          </div>
+          </form>
         </div>
-      </form>
+      </div>
     </section>
   );
 };
