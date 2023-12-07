@@ -4,15 +4,24 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { User } from "@/models/User";
 
 export async function PUT(req) {
-  mongoose.connect(process.env.MONGO_URL);
-  const data = await req.json();
-  const session = await getServerSession(authOptions);
+    mongoose.connect(process.env.MONGO_URL);
 
-  const email = session.user.email;
+    const data = await req.json();
+    const session = await getServerSession(authOptions);
 
-  if ("name" in data) {
-    await User.updateOne({ email }, { name: data.name });
-  }
+    const email = session.user.email;
 
-  return Response.json(true);
+    await User.updateOne({ email }, data);
+
+    return Response.json(true);
+}
+
+export async function GET(req) {
+    mongoose.connect(process.env.MONGO_URL);
+
+    const session = await getServerSession(authOptions);
+
+    const email = session.user.email;
+
+    return Response.json(await User.findOne({ email }));
 }
