@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import UserTab from "@/components/layout/UserTab";
 
 const ProfilePage = () => {
     const session = useSession();
@@ -16,8 +18,8 @@ const ProfilePage = () => {
     const [postalcode, setPostalcode] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
-    const [saved, setSaved] = useState(false);
-    const [saving, setSaving] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [profileFetch, setProfileFetch] = useState(false);
 
     useEffect(() => {
         if (status === "authenticated") {
@@ -29,6 +31,8 @@ const ProfilePage = () => {
                     setPostalcode(data.postalcode);
                     setCity(data.city);
                     setCountry(data.country);
+                    setIsAdmin(data.admin);
+                    setProfileFetch(true);
                 })
             );
         }
@@ -37,27 +41,28 @@ const ProfilePage = () => {
     const handleProfileInUpdate = async (ev) => {
         ev.preventDefault();
 
-        setSaved(false);
-        setSaving(true);
-
-        const response = await fetch("/api/profile", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: userName,
-                phone,
-                address,
-                postalcode,
-                city,
-                country,
-            }),
+        const savingPromise = new Promise(async (resolve, reject) => {
+            const response = await fetch("/api/profile", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: userName,
+                    phone,
+                    address,
+                    postalcode,
+                    city,
+                    country,
+                }),
+            });
+            if (response.ok) resolve();
+            else reject();
         });
 
-        setSaving(false);
-
-        if (response.ok) {
-            setSaved(true);
-        }
+        toast.promise(savingPromise, {
+            loading: "Saving...",
+            success: "Profile saved!",
+            error: "Error",
+        });
     };
 
     const handleInputFile = async (ev) => {
@@ -72,8 +77,12 @@ const ProfilePage = () => {
         }
     };
 
-    if (status === "loading") {
-        return "Loading...";
+    if (status === "loading" || !profileFetch) {
+        return (
+            <div className="flex justify-center items-center  min-h-screen">
+                <div className="loading flex justify-center items-center"></div>
+            </div>
+        );
     }
 
     if (status === "unauthenticated") {
@@ -84,18 +93,8 @@ const ProfilePage = () => {
 
     return (
         <section className="mt-8">
-            <h1 className="text-center text-primary text-4xl mb-4">Login</h1>
+            <UserTab isAdmin={isAdmin} />
             <div className="max-w-xl mx-auto">
-                {saved && (
-                    <h2 className="text-center bg-green-100 p-2 rounded-lg border border-1 border-green-500 font-medium mb-2">
-                        Profile saved!
-                    </h2>
-                )}
-                {saving && (
-                    <h2 className="text-center bg-blue-100 p-2 rounded-lg border border-1 border-blue-500 font-medium mb-2">
-                        Save...
-                    </h2>
-                )}
                 <div className="flex gap-4">
                     <div>
                         <div className="p-2 rounded-lg relative">
