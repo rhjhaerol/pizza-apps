@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const UserTab = ({ isAdmin }) => {
+const UserTab = (isAdmin) => {
     const path = usePathname();
 
     return (
