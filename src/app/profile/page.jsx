@@ -118,44 +118,36 @@ const ProfilePage = () => {
                         </div>
                     </div>
                     <form className="grow" onSubmit={handleProfileInUpdate}>
-                        <label>
-                            User Name
-                            <input
-                                type="text"
-                                placeholder="First and last name"
-                                value={userName}
-                                onChange={(ev) => setUserName(ev.target.value)}
-                            />
-                        </label>
-                        <label>
-                            Email
-                            <input
-                                type="email"
-                                value={session.data.user.email}
-                                disabled={true}
-                            />
-                        </label>
-                        <label>
-                            Phone
-                            <input
-                                type="tel"
-                                placeholder="Phone"
-                                value={phone}
-                                onChange={(ev) => setPhone(ev.target.value)}
-                            />
-                        </label>
-                        <label>
-                            Street address
-                            <input
-                                type="text"
-                                placeholder="Street address"
-                                value={address}
-                                onChange={(ev) => setAddress(ev.target.value)}
-                            />
-                        </label>
+                        <label>User Name</label>
+                        <input
+                            type="text"
+                            placeholder="First and last name"
+                            value={userName}
+                            onChange={(ev) => setUserName(ev.target.value)}
+                        />
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            value={session.data.user.email}
+                            disabled={true}
+                        />
+                        <label>Phone</label>
+                        <input
+                            type="tel"
+                            placeholder="Phone"
+                            value={phone}
+                            onChange={(ev) => setPhone(ev.target.value)}
+                        />
+                        <label>Street address</label>
+                        <input
+                            type="text"
+                            placeholder="Street address"
+                            value={address}
+                            onChange={(ev) => setAddress(ev.target.value)}
+                        />
                         <div className="flex gap-4 pt-1">
-                            <label>
-                                Postal code
+                            <div>
+                                <label>Postal code</label>
                                 <input
                                     type="number"
                                     placeholder="Postal code"
@@ -164,26 +156,24 @@ const ProfilePage = () => {
                                         setPostalcode(ev.target.value)
                                     }
                                 />
-                            </label>
-                            <label>
-                                City
+                            </div>
+                            <div>
+                                <label>City</label>
                                 <input
                                     type="text"
                                     placeholder="City"
                                     value={city}
                                     onChange={(ev) => setCity(ev.target.value)}
                                 />
-                            </label>
+                            </div>
                         </div>
-                        <label>
-                            Country
-                            <input
-                                type="text"
-                                placeholder="Country"
-                                value={country}
-                                onChange={(ev) => setCountry(ev.target.value)}
-                            />
-                        </label>
+                        <label>Country</label>
+                        <input
+                            type="text"
+                            placeholder="Country"
+                            value={country}
+                            onChange={(ev) => setCountry(ev.target.value)}
+                        />
 
                         <button type="submit" className="mt-4">
                             Save
